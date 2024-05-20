@@ -9,7 +9,7 @@ pygame.init()
 
 # Constants
 
-WIDTH, HEIGHT = 633, 900
+WIDTH, HEIGHT = 900, 900
 
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 BACKGROUND = pygame.image.load("C:\\Users\\Angeline\\Wordle-PyGame-main\\assets\\tiles.png")
