@@ -1,4 +1,5 @@
 import pygame
+import pygame.mixer
 import pkg_resources
 import os
 import sys
@@ -6,16 +7,15 @@ import random
 from words import *
 
 pygame.init()
-
-# Constants
+pygame.mixer.init()
 
 WIDTH, HEIGHT = 900, 900
 
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 BACKGROUND = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\tiles.png")
-BACKGROUND_RECT = BACKGROUND.get_rect(center=(317, 300))
+BACKGROUND_RECT = BACKGROUND.get_rect(center=(200, 200))
 ICON = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\Icon.png")
-
+ENTER_SOUND = pygame.mixer.Sound("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\button_1.ogg")
 pygame.display.set_caption("Wordle!")
 pygame.display.set_icon(ICON)
 BACKGROUND = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_test.jpeg")
@@ -45,18 +45,11 @@ LETTER_SIZE = 75
 # Global variables
 
 guesses_count = 0
-
-# guesses is a 2D list that will store guesses. A guess will be a list of letters.
-# The list will be iterated through and each letter in each guess will be drawn on the screen.
 guesses = [[]] * 6
-
 current_guess = []
 current_guess_string = ""
 current_letter_bg_x = 110
-
-# Indicators is a list storing all the Indicator object. An indicator is that button thing with all the letters you see.
 indicators = []
-
 game_result = ""
 
 class Letter:
@@ -159,8 +152,8 @@ def check_guess(guess_to_check):
 
 def play_again():
     # Puts the play again text on the screen.
-    pygame.draw.rect(SCREEN, "white", (10, 600, 1000, 600))
-    play_again_font = pygame.font.Font("assets/FreeSansBold.otf", 40)
+    pygame.draw.rect(SCREEN, "grey", (10, 600, 1000, 600))
+    play_again_font = pygame.font.Font("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\FreeSansBold.otf", 50)
     play_again_text = play_again_font.render("Press ENTER to Play Again!", True, "black")
     play_again_rect = play_again_text.get_rect(center=(WIDTH/2, 700))
     word_was_text = play_again_font.render(f"The word was {CORRECT_WORD}!", True, "black")
@@ -172,7 +165,7 @@ def play_again():
 def reset():
     # Resets all global variables to their default states.
     global guesses_count, CORRECT_WORD, guesses, current_guess, current_guess_string, game_result
-    SCREEN.fill("white")
+    SCREEN.fill("grey")
     SCREEN.blit(BACKGROUND, BACKGROUND_RECT)
     guesses_count = 0
     CORRECT_WORD = random.choice(WORDS)
@@ -220,6 +213,7 @@ while True:
                 else:
                     if len(current_guess_string) == 5 and current_guess_string.lower() in WORDS:
                         check_guess(current_guess)
+                        ENTER_SOUND.play()
             elif event.key == pygame.K_BACKSPACE:
                 if len(current_guess_string) > 0:
                     delete_letter()
