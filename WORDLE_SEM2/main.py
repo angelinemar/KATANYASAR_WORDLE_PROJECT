@@ -15,6 +15,7 @@ BACKGROUND = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_P
 BACKGROUND_RECT = BACKGROUND.get_rect(center=(200, 200))
 ICON = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\Icon.png")
 ENTER_SOUND = pygame.mixer.Sound("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\button_1.ogg")
+TYPE_SOUND = pygame.mixer.Sound("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\type.ogg")
 pygame.display.set_caption("projek apa ni")
 pygame.display.set_icon(ICON)
 BACKGROUND = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_test.jpeg")
@@ -213,3 +214,4 @@ while True:
                 if key_pressed in "QWERTYUIOPASDFGHJKLZXCVBNM" and key_pressed != "":
                     if len(current_guess_string) < 5:
                         create_new_letter()
+                        TYPE_SOUND.play()
