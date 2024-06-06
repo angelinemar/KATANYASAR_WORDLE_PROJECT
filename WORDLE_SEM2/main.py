@@ -8,42 +8,33 @@ from words import *
 
 pygame.init()
 pygame.mixer.init()
-
+# ASSET DISPLAY AND SFX SEMUA
 WIDTH, HEIGHT = 900, 900
-
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 BACKGROUND = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\tiles.png")
 BACKGROUND_RECT = BACKGROUND.get_rect(center=(200, 200))
 ICON = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\Icon.png")
 ENTER_SOUND = pygame.mixer.Sound("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\button_1.ogg")
-pygame.display.set_caption("Wordle!")
+pygame.display.set_caption("projek apa ni")
 pygame.display.set_icon(ICON)
 BACKGROUND = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_test.jpeg")
 BACKGROUND = pygame.transform.scale(BACKGROUND, (WIDTH, HEIGHT))
-
 GREEN = "#6aaa64"
 YELLOW = "#c9b458"
 GREY = "#787c7e"
 OUTLINE = "#d3d6da"
 FILLED_OUTLINE = "#878a8c"
-
-CORRECT_WORD = "coder"
-
+CORRECT_WORD = "bread"
 ALPHABET = ["ABCDEFGH", "IJKLMNOP", "QRSTUVWXYZ"]
-
 GUESSED_LETTER_FONT = pygame.font.Font("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\FreeSansBold.otf", 50)
 AVAILABLE_LETTER_FONT = pygame.font.Font("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\FreeSansBold.otf", 25)
-
-#SCREEN.fill(white)
 SCREEN.blit(BACKGROUND, BACKGROUND_RECT)
 pygame.display.update()
-
 LETTER_X_SPACING = 85
 LETTER_Y_SPACING = 12
 LETTER_SIZE = 75
 
-# Global variables
-
+# VARIABLE GLOBAL
 guesses_count = 0
 guesses = [[]] * 6
 current_guess = []
