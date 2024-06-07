@@ -1,6 +1,5 @@
 import pygame
 import pygame.mixer
-import pkg_resources
 import os
 import sys
 import random
@@ -9,16 +8,21 @@ from words import *
 pygame.init()
 pygame.mixer.init()
 # ASSET DISPLAY AND SFX SEMUA
-WIDTH, HEIGHT = 900, 900
+WIDTH, HEIGHT = 650, 750
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
-BACKGROUND = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\tiles.png")
-BACKGROUND_RECT = BACKGROUND.get_rect(center=(200, 200))
-ICON = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\Icon.png")
-ENTER_SOUND = pygame.mixer.Sound("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\button_1.ogg")
-TYPE_SOUND = pygame.mixer.Sound("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\type.ogg")
+BACKGROUND = pygame.image.load("D:\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\tiles.png")
+#BACKGROUND = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\tiles.png")
+BACKGROUND_RECT = BACKGROUND.get_rect(center=(210, 290))
+ICON = pygame.image.load("D:\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\Icon.png")
+# ICON = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\Icon.png")
+ENTER_SOUND = pygame.mixer.Sound("D:\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\button_1.ogg")
+# ENTER_SOUND = pygame.mixer.Sound("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\button_1.ogg")
+TYPE_SOUND = pygame.mixer.Sound("D:\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\type.ogg")
+# TYPE_SOUND = pygame.mixer.Sound("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\type.ogg")
 pygame.display.set_caption("projek apa ni")
 pygame.display.set_icon(ICON)
-BACKGROUND = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_test.jpeg")
+BACKGROUND = pygame.image.load("D:\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bali.jpg")
+# BACKGROUND = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_test.jpeg")
 BACKGROUND = pygame.transform.scale(BACKGROUND, (WIDTH, HEIGHT))
 GREEN = "#6aaa64"
 YELLOW = "#c9b458"
@@ -26,9 +30,13 @@ GREY = "#787c7e"
 OUTLINE = "#d3d6da"
 FILLED_OUTLINE = "#878a8c"
 CORRECT_WORD = "bread"
-ALPHABET = ["ABCDEFGH", "IJKLMNOP", "QRSTUVWXYZ"]
-GUESSED_LETTER_FONT = pygame.font.Font("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\FreeSansBold.otf", 50)
-AVAILABLE_LETTER_FONT = pygame.font.Font("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\FreeSansBold.otf", 25)
+# ALPHABET = ["ABCDEFGH", "IJKLMNOP", "QRSTUVWXYZ"]
+ALPHABET = ["ABCDEFGHIJKLM", "NOPQRSTUVWXYZ"]
+
+GUESSED_LETTER_FONT = pygame.font.Font("D:\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\FreeSansBold.otf", 50)
+AVAILABLE_LETTER_FONT = pygame.font.Font("D:\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\FreeSansBold.otf", 25)
+# GUESSED_LETTER_FONT = pygame.font.Font("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\FreeSansBold.otf", 50)
+# AVAILABLE_LETTER_FONT = pygame.font.Font("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\FreeSansBold.otf", 25)
 SCREEN.blit(BACKGROUND, BACKGROUND_RECT)
 pygame.display.update()
 LETTER_X_SPACING = 85
@@ -51,9 +59,9 @@ class Letter:
         self.bg_position = bg_position
         self.bg_x = bg_position[0]
         self.bg_y = bg_position[1]
-        self.bg_rect = (self.bg_x, self.bg_y, LETTER_SIZE, LETTER_SIZE)
+        self.bg_rect = (self.bg_x, self.bg_y + 120, LETTER_SIZE, LETTER_SIZE - 10)
         self.text = text
-        self.text_position = (self.bg_x + 36, self.bg_y + 30)
+        self.text_position = (self.bg_x + 36, self.bg_y + 150)
         self.text_surface = GUESSED_LETTER_FONT.render(self.text, True, self.text_color)
         self.text_rect = self.text_surface.get_rect(center=self.text_position)
 
@@ -80,22 +88,34 @@ class Indicator:
 
     def draw(self):
         pygame.draw.rect(SCREEN, self.bg_color, self.rect, border_radius=10)
-        self.text_surface = AVAILABLE_LETTER_FONT.render(self.text, True, "white")
+        self.text_surface = AVAILABLE_LETTER_FONT.render(self.text, True, "black")
         self.text_rect = self.text_surface.get_rect(center=(self.x + 27, self.y + 30))
         SCREEN.blit(self.text_surface, self.text_rect)
         pygame.display.update()
 
-indicator_x, indicator_y = 20, 600
+
+indicator_x, indicator_y = 40, 0
 
 for row in ALPHABET:
-    total_row_width = len(row) * LETTER_X_SPACING  
-    indicator_x = (WIDTH - total_row_width) // 2 
+    total_row_width = len(row) * LETTER_X_SPACING
+    indicator_x = 30 //(WIDTH - total_row_width)// 2 
     for letter in row:
         new_indicator = Indicator(indicator_x, indicator_y, letter)
         indicators.append(new_indicator)
         new_indicator.draw()
-        indicator_x += LETTER_X_SPACING
-    indicator_y += 100
+        indicator_x += 50
+    indicator_y += 50
+# indicator_x, indicator_y = 20, 600
+
+# for row in ALPHABET:
+#     total_row_width = len(row) * LETTER_X_SPACING
+#     indicator_x = (WIDTH - total_row_width)// 2 
+#     for letter in row:
+#         new_indicator = Indicator(indicator_x, indicator_y, letter)
+#         indicators.append(new_indicator)
+#         new_indicator.draw()
+#         indicator_x += LETTER_X_SPACING
+#     indicator_y += 75
 
 def check_guess(guess_to_check):
     # Goes through each letter and checks if it should be green, yellow, or grey.
@@ -145,7 +165,8 @@ def check_guess(guess_to_check):
 def play_again():
     # Puts the play again text on the screen.
     pygame.draw.rect(SCREEN, "grey", (10, 600, 1000, 600))
-    play_again_font = pygame.font.Font("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\FreeSansBold.otf", 50)
+    play_again_font = pygame.font.Font("D:\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\FreeSansBold.otf", 50)
+    # play_again_font = pygame.font.Font("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\FreeSansBold.otf", 50)
     play_again_text = play_again_font.render("Press ENTER to Play Again!", True, "black")
     play_again_rect = play_again_text.get_rect(center=(WIDTH/2, 700))
     word_was_text = play_again_font.render(f"The word was {CORRECT_WORD}!", True, "black")
