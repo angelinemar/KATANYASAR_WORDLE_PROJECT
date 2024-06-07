@@ -46,7 +46,7 @@ LETTER_SIZE = 75
 
 # VARIABLE GLOBAL
 guesses_count = 0
-guesses = [[]] * 6
+guesses = [[]] * 5
 current_guess = []
 current_guess_string = ""
 current_letter_bg_x = 110
@@ -160,7 +160,7 @@ def check_guess(guess_to_check):
     current_guess_string = ""
     current_letter_bg_x = 110
 
-    if guesses_count == 6 and game_result == "":
+    if guesses_count == 5 and game_result == "":
         game_result = "L"
 
 def play_again():
@@ -183,7 +183,7 @@ def reset():
     SCREEN.blit(BACKGROUND, BACKGROUND_RECT)
     guesses_count = 0
     CORRECT_WORD = random.choice(WORDS)
-    guesses = [[]] * 6
+    guesses = [[]] * 5
     current_guess = []
     current_guess_string = ""
     game_result = ""
@@ -196,7 +196,7 @@ def create_new_letter():
     # Creates a new letter and adds it to the guess.
     global current_guess_string, current_letter_bg_x
     current_guess_string += key_pressed
-    new_letter = Letter(key_pressed, (current_letter_bg_x, guesses_count*100+LETTER_Y_SPACING))
+    new_letter = Letter(key_pressed, (current_letter_bg_x, guesses_count*75+LETTER_Y_SPACING))
     current_letter_bg_x += LETTER_X_SPACING
     guesses[guesses_count].append(new_letter)
     current_guess.append(new_letter)
