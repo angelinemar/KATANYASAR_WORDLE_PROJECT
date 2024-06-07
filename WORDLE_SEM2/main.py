@@ -6,6 +6,7 @@ import sys
 import random
 from words import *
 #ini nat tes
+#ini jason tes 
 pygame.init()
 pygame.mixer.init()
 # ASSET DISPLAY AND SFX SEMUA
