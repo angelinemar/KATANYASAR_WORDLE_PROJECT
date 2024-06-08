@@ -1,14 +1,14 @@
 import pygame
-import moviepy.editor as mp
 import os
-import sys
+import pygame.mixer
+import moviepy.editor as mp
 import random
+import sys
 from words import *
 
 pygame.init()
 pygame.mixer.init()
 
-# Constants
 WIDTH, HEIGHT = 650, 750
 LETTER_X_SPACING = 85
 LETTER_Y_SPACING = 12
@@ -20,25 +20,30 @@ OUTLINE = "#d3d6da"
 FILLED_OUTLINE = "#878a8c"
 CORRECT_WORD = "bread"
 ALPHABET = ["ABCDEFGHIJKLM", "NOPQRSTUVWXYZ"]
-GUESSED_LETTER_FONT_PATH = "C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\FreeSansBold.otf"
+GUESSED_LETTER_FONT_PATH = "/Users/jennifernathaniahartono/Documents/WORDLE_PROJ_SEM2/WORDLE_SEM2/assets/FreeSansBold.otf"
 AVAILABLE_LETTER_FONT_PATH = GUESSED_LETTER_FONT_PATH
 
-# Setup display and video
+# Setup display
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("projek apa ni")
 
-video_path = "C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_cth.mp4"
+# Load assets
+video_path = "/Users/jennifernathaniahartono/Documents/WORDLE_PROJ_SEM2-2/WORDLE_SEM2/assets/bg_cth.mp4"
 video = mp.VideoFileClip(video_path)
+
+# Extract audio from video
 audio_path = "temp_audio.mp3"
 video.audio.write_audiofile(audio_path)
-pygame.mixer.music.load(audio_path)
-pygame.mixer.music.play(-1)
 
-ICON = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\Icon.png")
+# Load audio
+pygame.mixer.music.load(audio_path)
+
+# Load other assets
+ICON = pygame.image.load("/Users/jennifernathaniahartono/Documents/WORDLE_PROJ_SEM2/WORDLE_SEM2/assets/tiles.png")
 pygame.display.set_icon(ICON)
 
-ENTER_SOUND = pygame.mixer.Sound("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\button_1.ogg")
-TYPE_SOUND = pygame.mixer.Sound("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\type.ogg")
+ENTER_SOUND = pygame.mixer.Sound("/Users/jennifernathaniahartono/Documents/GitHub/WORDLE_PROJ_SEM2/WORDLE_SEM2/assets/sfx/button_1.ogg")
+TYPE_SOUND = pygame.mixer.Sound("/Users/jennifernathaniahartono/Documents/GitHub/WORDLE_PROJ_SEM2/WORDLE_SEM2/assets/sfx/type.ogg")
 
 GUESSED_LETTER_FONT = pygame.font.Font(GUESSED_LETTER_FONT_PATH, 50)
 AVAILABLE_LETTER_FONT = pygame.font.Font(AVAILABLE_LETTER_FONT_PATH, 25)
@@ -51,6 +56,69 @@ current_guess_string = ""
 current_letter_bg_x = 110
 indicators = []
 game_result = ""
+current_scene = "opening"  # New variable to track the current scene
+video_start_time = 0  # Time when video started playing in gameplay scene
+
+class Button:
+    def __init__(self, text, position, width, height, font):
+        self.text = text
+        self.position = position
+        self.width = width
+        self.height = height
+        self.font = font
+        self.rect = pygame.Rect(position[0], position[1], width, height)
+        self.color = GREY
+
+    def draw(self):
+        pygame.draw.rect(SCREEN, self.color, self.rect)
+        text_surface = self.font.render(self.text, True, "white")
+        text_rect = text_surface.get_rect(center=self.rect.center)
+        SCREEN.blit(text_surface, text_rect)
+
+    def is_clicked(self, pos):
+        return self.rect.collidepoint(pos)
+
+class OpeningScene:
+    def __init__(self):
+        self.title_font = pygame.font.Font(GUESSED_LETTER_FONT_PATH, 75)
+        self.button_font = pygame.font.Font(GUESSED_LETTER_FONT_PATH, 50)
+        self.start_button = Button("Start", (225, 300), 200, 75, self.button_font)
+        self.settings_button = Button("Settings", (225, 400), 200, 75, self.button_font)
+
+    def draw(self):
+        SCREEN.fill("black")
+        title_surface = self.title_font.render("Wordle Game", True, "white")
+        title_rect = title_surface.get_rect(center=(WIDTH / 2, 150))
+        SCREEN.blit(title_surface, title_rect)
+        self.start_button.draw()
+        self.settings_button.draw()
+
+    def handle_event(self, event):
+        global current_scene
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if self.start_button.is_clicked(event.pos):
+                current_scene = "gameplay"
+            elif self.settings_button.is_clicked(event.pos):
+                current_scene = "settings"
+
+class SettingsScene:
+    def __init__(self):
+        self.title_font = pygame.font.Font(GUESSED_LETTER_FONT_PATH, 75)
+        self.button_font = pygame.font.Font(GUESSED_LETTER_FONT_PATH, 50)
+        self.back_button = Button("Back", (225, 500), 200, 75, self.button_font)
+
+    def draw(self):
+        SCREEN.fill("black")
+        title_surface = self.title_font.render("Settings", True, "white")
+        title_rect = title_surface.get_rect(center=(WIDTH / 2, 150))
+        SCREEN.blit(title_surface, title_rect)
+        self.back_button.draw()
+
+    def handle_event(self, event):
+        global current_scene
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if self.back_button.is_clicked(event.pos):
+                current_scene = "opening"
 
 class Letter:
     def __init__(self, text, bg_position):
@@ -148,9 +216,9 @@ def play_again():
     pygame.draw.rect(SCREEN, "grey", (10, 600, 1000, 600))
     play_again_font = pygame.font.Font(GUESSED_LETTER_FONT_PATH, 50)
     play_again_text = play_again_font.render("Press ENTER to Play Again!", True, "black")
-    play_again_rect = play_again_text.get_rect(center=(WIDTH/2, 700))
+    play_again_rect = play_again_text.get_rect(center=(WIDTH / 2, 700))
     word_was_text = play_again_font.render(f"The word was {CORRECT_WORD}!", True, "black")
-    word_was_rect = word_was_text.get_rect(center=(WIDTH/2, 650))
+    word_was_rect = word_was_text.get_rect(center=(WIDTH / 2, 650))
     SCREEN.blit(word_was_text, word_was_rect)
     SCREEN.blit(play_again_text, play_again_rect)
 
@@ -169,7 +237,7 @@ def reset():
     for indicator in indicators:
         indicator.bg_color = OUTLINE
         indicator.draw()
-    pygame.mixer.music.play(-1) 
+    pygame.mixer.music.play(-1)
     
 def create_new_letter(key_pressed):
     global current_guess_string, current_letter_bg_x
@@ -193,49 +261,79 @@ def delete_letter():
 
 clock = pygame.time.Clock()
 fps = video.fps
-start_time = pygame.time.get_ticks()
+
+opening_scene = OpeningScene()
+settings_scene = SettingsScene()
 
 while True:
-    current_time = (pygame.time.get_ticks() - start_time) / 1000.0
-
-    if current_time < video.duration:
-        frame = video.get_frame(current_time)
-        frame_surface = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
-        SCREEN.blit(frame_surface, (0, 0))
+    if current_scene == "gameplay":
+        current_time = (pygame.time.get_ticks() - video_start_time) / 1000.0
+        if current_time < video.duration:
+            frame = video.get_frame(current_time)
+            frame_surface = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
+            SCREEN.blit(frame_surface, (0, 0))
+        else:
+            video_start_time = pygame.time.get_ticks()
     else:
-        start_time = pygame.time.get_ticks()
+        current_time = 0  # Reset current time for other scenes
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
-                if game_result != "":
-                    reset()
+
+        if current_scene == "opening":
+            opening_scene.handle_event(event)
+        elif current_scene == "settings":
+            settings_scene.handle_event(event)
+
+        if current_scene == "gameplay":
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    if game_result != "":
+                        reset()
+                    else:
+                        if len(current_guess_string) == 5 and current_guess_string.lower() in WORDS:
+                            check_guess(current_guess)
+                            ENTER_SOUND.play()
+                            if game_result != "":
+                                play_again()
+                elif event.key == pygame.K_BACKSPACE:
+                    if len(current_guess_string) > 0:
+                        delete_letter()
                 else:
-                    if len(current_guess_string) == 5 and current_guess_string.lower() in WORDS:
-                        check_guess(current_guess)
-                        ENTER_SOUND.play()
-                        if game_result != "":
-                            play_again()
-            elif event.key == pygame.K_BACKSPACE:
-                if len(current_guess_string) > 0:
-                    delete_letter()
-            else:
-                key_pressed = event.unicode.upper()
-                if key_pressed in "QWERTYUIOPASDFGHJKLZXCVBNM":
-                    if len(current_guess_string) < 5:
-                        create_new_letter(key_pressed)
-                        TYPE_SOUND.play()
+                    key_pressed = event.unicode.upper()
+                    if key_pressed in "QWERTYUIOPASDFGHJKLZXCVBNM":
+                        if len(current_guess_string) < 5:
+                            create_new_letter(key_pressed)
+                            TYPE_SOUND.play()
 
-    for guess in guesses:
-        for letter in guess:
-            letter.draw()
+    if current_scene == "gameplay":
+        for guess in guesses:
+            for letter in guess:
+                letter.draw()
 
-    for indicator in indicators:
-        indicator.draw()
+        for indicator in indicators:
+            indicator.draw()
+
+        # Start the video and audio when entering the gameplay scene
+        if not pygame.mixer.music.get_busy():
+            pygame.mixer.music.play(-1)
+            video_start_time = pygame.time.get_ticks()
+
+    else:
+        # Stop the video and audio when leaving the gameplay scene
+        if pygame.mixer.music.get_busy():
+            pygame.mixer.music.stop()
+
+        if current_scene == "opening":
+            opening_scene.draw()
+        elif current_scene == "settings":
+            settings_scene.draw()
 
     pygame.display.update()
     clock.tick(fps)
 
+# Clean up temporary files
 os.remove(audio_path)
+
