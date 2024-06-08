@@ -18,20 +18,30 @@ YELLOW = "#c9b458"
 GREY = "#787c7e"
 OUTLINE = "#d3d6da"
 FILLED_OUTLINE = "#878a8c"
-CORRECT_WORD = "bread"
+CORRECT_WORD = "ajaib"
 ALPHABET = ["ABCDEFGHIJKLM", "NOPQRSTUVWXYZ"]
 GUESSED_LETTER_FONT_PATH = "/Users/jennifernathaniahartono/Documents/WORDLE_PROJ_SEM2/WORDLE_SEM2/assets/FreeSansBold.otf"
+#GUESSED_LETTER_FONT_PATH = "C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\FreeSansBold.otf"
 AVAILABLE_LETTER_FONT_PATH = GUESSED_LETTER_FONT_PATH
 
 # Setup display
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("projek apa ni")
+pygame.display.set_caption("NYASAR KATA GAME")
 
 # Load assets
+#jenni
 video_path = "/Users/jennifernathaniahartono/Documents/WORDLE_PROJ_SEM2-2/WORDLE_SEM2/assets/bg_cth.mp4"
+video_path_2 = "/Users/jennifernathaniahartono/Documents/WORDLE_PROJ_SEM2-2/WORDLE_SEM2/assets/bg_vid.mp4"
 video = mp.VideoFileClip(video_path)
+video2 = mp.VideoFileClip(video_path_2)
 
-# Extract audio from video
+#angel
+#video_path = "C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_cth.mp4"
+#video_path_2 = "C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_vid.mp4"
+#video = mp.VideoFileClip(video_path)
+#video2 = mp.VideoFileClip(video_path_2)
+
+# Extract audio from the main video
 audio_path = "temp_audio.mp3"
 video.audio.write_audiofile(audio_path)
 
@@ -39,9 +49,13 @@ video.audio.write_audiofile(audio_path)
 pygame.mixer.music.load(audio_path)
 
 # Load other assets
+#ICON = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\tiles.png")
 ICON = pygame.image.load("/Users/jennifernathaniahartono/Documents/WORDLE_PROJ_SEM2/WORDLE_SEM2/assets/tiles.png")
+
 pygame.display.set_icon(ICON)
 
+#ENTER_SOUND = pygame.mixer.Sound("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\button_1.ogg")
+#TYPE_SOUND = pygame.mixer.Sound("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\type.ogg")
 ENTER_SOUND = pygame.mixer.Sound("/Users/jennifernathaniahartono/Documents/GitHub/WORDLE_PROJ_SEM2/WORDLE_SEM2/assets/sfx/button_1.ogg")
 TYPE_SOUND = pygame.mixer.Sound("/Users/jennifernathaniahartono/Documents/GitHub/WORDLE_PROJ_SEM2/WORDLE_SEM2/assets/sfx/type.ogg")
 
@@ -57,7 +71,7 @@ current_letter_bg_x = 110
 indicators = []
 game_result = ""
 current_scene = "opening"  # New variable to track the current scene
-video_start_time = 0  # Time when video started playing in gameplay scene
+video_start_time = pygame.time.get_ticks()  # Initialize video_start_time
 
 class Button:
     def __init__(self, text, position, width, height, font):
@@ -84,28 +98,39 @@ class OpeningScene:
         self.button_font = pygame.font.Font(GUESSED_LETTER_FONT_PATH, 50)
         self.start_button = Button("Start", (225, 300), 200, 75, self.button_font)
         self.settings_button = Button("Settings", (225, 400), 200, 75, self.button_font)
-
+        self.video_start_time = pygame.time.get_ticks()  # Initialize local video_start_time
+        
     def draw(self):
-        SCREEN.fill("black")
-        title_surface = self.title_font.render("Wordle Game", True, "white")
-        title_rect = title_surface.get_rect(center=(WIDTH / 2, 150))
-        SCREEN.blit(title_surface, title_rect)
+        current_time = (pygame.time.get_ticks() - self.video_start_time) / 1000.0
+        if current_time < video2.duration:
+            frame = video2.get_frame(current_time)
+            frame_surface = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
+            SCREEN.blit(frame_surface, (0, 0))
+        else:
+            self.video_start_time = pygame.time.get_ticks()
+        
+        # title_surface = self.title_font.render("Wordle Game", True, "white")
+        # title_rect = title_surface.get_rect(center=(WIDTH / 2, 150))
+        # SCREEN.blit(title_surface, title_rect)
         self.start_button.draw()
         self.settings_button.draw()
 
     def handle_event(self, event):
-        global current_scene
+        global current_scene, video_start_time
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.start_button.is_clicked(event.pos):
                 current_scene = "gameplay"
+                video_start_time = pygame.time.get_ticks()  # Update global video_start_time
             elif self.settings_button.is_clicked(event.pos):
                 current_scene = "settings"
+                video_start_time = pygame.time.get_ticks()  # Update global video_start_time
 
 class SettingsScene:
     def __init__(self):
         self.title_font = pygame.font.Font(GUESSED_LETTER_FONT_PATH, 75)
         self.button_font = pygame.font.Font(GUESSED_LETTER_FONT_PATH, 50)
         self.back_button = Button("Back", (225, 500), 200, 75, self.button_font)
+        self.video_start_time = pygame.time.get_ticks()  # Initialize local video_start_time
 
     def draw(self):
         SCREEN.fill("black")
@@ -115,10 +140,11 @@ class SettingsScene:
         self.back_button.draw()
 
     def handle_event(self, event):
-        global current_scene
+        global current_scene, video_start_time
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.back_button.is_clicked(event.pos):
                 current_scene = "opening"
+                video_start_time = pygame.time.get_ticks()  # Update global video_start_time
 
 class Letter:
     def __init__(self, text, bg_position):
@@ -184,6 +210,7 @@ def check_guess(guess_to_check):
                 guess_to_check[i].text_color = "white"
                 if not game_decided:
                     game_result = "W"
+                    game_decided = True
             else:
                 guess_to_check[i].bg_color = YELLOW
                 for indicator in indicators:
@@ -336,4 +363,3 @@ while True:
 
 # Clean up temporary files
 os.remove(audio_path)
-
