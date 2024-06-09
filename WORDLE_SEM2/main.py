@@ -19,7 +19,7 @@ OUTLINE = "#d3d6da"
 FILLED_OUTLINE = "#878a8c"
 CORRECT_WORD = "ajaib"
 ALPHABET = ["ABCDEFGHIJKLM", "NOPQRSTUVWXYZ"]
-GUESSED_LETTER_FONT_PATH = "D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\TypoSlab.otf"
+GUESSED_LETTER_FONT_PATH = "C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\TypoSlab.otf"
 AVAILABLE_LETTER_FONT_PATH = GUESSED_LETTER_FONT_PATH
 
 # Setup display
@@ -28,25 +28,27 @@ pygame.display.set_caption("NYASAR KATA GAME")
 
 # Load assets
 # jenni
-video_path = "D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_ingame.mp4"
-video_path_2 = "D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_vid.mp4"
-video = mp.VideoFileClip(video_path)
-video2 = mp.VideoFileClip(video_path_2)
+#video_path = "D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_ingame.mp4"
+#video_path_2 = "D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_vid.mp4"
+#video = mp.VideoFileClip(video_path)
+#video2 = mp.VideoFileClip(video_path_2)
 
 #winScene
-win_video = mp.VideoFileClip("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\win_video.mp4")
-lose_video = mp.VideoFileClip("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\lose_video.mp4")
+#win_video = mp.VideoFileClip("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\win_video.mp4")
+#lose_video = mp.VideoFileClip("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\lose_video.mp4")
 
 # angel
-# video_path = "C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_cth.mp4"
-# video_path_2 = "C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_vid.mp4"
-# video = mp.VideoFileClip(video_path)
-# video2 = mp.VideoFileClip(video_path_2)
+win_video = mp.VideoFileClip("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\win_video.mp4")
+lose_video = mp.VideoFileClip("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\lose_video.mp4")
+video_path = "C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_ingame.mp4"
+video_path_2 = "C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_vid.mp4"
+video = mp.VideoFileClip(video_path)
+video2 = mp.VideoFileClip(video_path_2)
 
 # Extract audio from the main video
 #audio_path = "/Users/jennifernathaniahartono/Documents/WORDLE_PROJ_SEM2-4/WORDLE_SEM2/assets/sfx/gamelan.mp3"
 #audio = pygame.mixer.music.load(audio_path)
-audio_sound = pygame.mixer.Sound("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\gamelan.mp3")
+audio_sound = pygame.mixer.Sound("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\gamelan.mp3")
 
 # # Directly load the MP3 if available
 # try:
@@ -58,12 +60,12 @@ audio_sound = pygame.mixer.Sound("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORD
 
 
 # Load other assets
-ICON = pygame.image.load("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\tiles.png")
+ICON = pygame.image.load("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\tiles.png")
 
 pygame.display.set_icon(ICON)
 
-ENTER_SOUND = pygame.mixer.Sound("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\button_1.ogg")
-TYPE_SOUND = pygame.mixer.Sound("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\type.ogg")
+ENTER_SOUND = pygame.mixer.Sound("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\button_1.ogg")
+TYPE_SOUND = pygame.mixer.Sound("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\type.ogg")
 
 GUESSED_LETTER_FONT = pygame.font.Font(GUESSED_LETTER_FONT_PATH, 50)
 AVAILABLE_LETTER_FONT = pygame.font.Font(AVAILABLE_LETTER_FONT_PATH, 25)
@@ -289,7 +291,7 @@ class LoseScene:
         self.play_again_button = Button("P L A Y  G A M E ", (335, 425), self.button_font)
         self.main_menu_button = Button("M A I N  M E N U ", (325, 540), self.button_font)
         self.video_start_time = pygame.time.get_ticks()  # Initialize local video_start_time
-        self.answer_font = pygame.font.Font("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\DoubleBass.ttf", 50)
+        self.answer_font = pygame.font.Font("C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\TypoSlab.otf", 50)
         
     def draw(self):
         current_time = (pygame.time.get_ticks() - self.video_start_time) / 1000.0
