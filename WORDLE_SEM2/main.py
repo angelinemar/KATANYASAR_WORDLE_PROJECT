@@ -19,7 +19,7 @@ OUTLINE = "#d3d6da"
 FILLED_OUTLINE = "#878a8c"
 CORRECT_WORD = "ajaib"
 ALPHABET = ["ABCDEFGHIJKLM", "NOPQRSTUVWXYZ"]
-GUESSED_LETTER_FONT_PATH = "/Users/jennifernathaniahartono/Documents/WORDLE_PROJ_SEM2-5/WORDLE_SEM2/assets/sfx/TypoSlab.otf"
+GUESSED_LETTER_FONT_PATH = "D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\TypoSlab.otf"
 AVAILABLE_LETTER_FONT_PATH = GUESSED_LETTER_FONT_PATH
 
 # Setup display
@@ -28,14 +28,14 @@ pygame.display.set_caption("NYASAR KATA GAME")
 
 # Load assets
 # jenni
-video_path = "/Users/jennifernathaniahartono/Documents/WORDLE_PROJ_SEM2-5/WORDLE_SEM2/assets/bg_ingame.mp4"
-video_path_2 = "/Users/jennifernathaniahartono/Documents/WORDLE_PROJ_SEM2-5/WORDLE_SEM2/assets/bg_vid.mp4"
+video_path = "D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_ingame.mp4"
+video_path_2 = "D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_vid.mp4"
 video = mp.VideoFileClip(video_path)
 video2 = mp.VideoFileClip(video_path_2)
 
 #winScene
-win_video = mp.VideoFileClip("/Users/jennifernathaniahartono/Documents/WORDLE_PROJ_SEM2-5/WORDLE_SEM2/assets/win_video.mp4")
-lose_video = mp.VideoFileClip("/Users/jennifernathaniahartono/Documents/WORDLE_PROJ_SEM2-5/WORDLE_SEM2/assets/lose_video.mp4")
+win_video = mp.VideoFileClip("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\win_video.mp4")
+lose_video = mp.VideoFileClip("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\lose_video.mp4")
 
 # angel
 # video_path = "C:\\Users\\Angeline\\Documents\\GitHub\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\bg_cth.mp4"
@@ -46,7 +46,7 @@ lose_video = mp.VideoFileClip("/Users/jennifernathaniahartono/Documents/WORDLE_P
 # Extract audio from the main video
 #audio_path = "/Users/jennifernathaniahartono/Documents/WORDLE_PROJ_SEM2-4/WORDLE_SEM2/assets/sfx/gamelan.mp3"
 #audio = pygame.mixer.music.load(audio_path)
-audio_sound = pygame.mixer.Sound("/Users/jennifernathaniahartono/Documents/WORDLE_PROJ_SEM2-5/WORDLE_SEM2/assets/sfx/gamelan.mp3")
+audio_sound = pygame.mixer.Sound("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\gamelan.mp3")
 
 # # Directly load the MP3 if available
 # try:
@@ -58,12 +58,12 @@ audio_sound = pygame.mixer.Sound("/Users/jennifernathaniahartono/Documents/WORDL
 
 
 # Load other assets
-ICON = pygame.image.load("/Users/jennifernathaniahartono/Documents/WORDLE_PROJ_SEM2/WORDLE_SEM2/assets/tiles.png")
+ICON = pygame.image.load("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\tiles.png")
 
 pygame.display.set_icon(ICON)
 
-ENTER_SOUND = pygame.mixer.Sound("/Users/jennifernathaniahartono/Documents/GitHub/WORDLE_PROJ_SEM2/WORDLE_SEM2/assets/sfx/button_1.ogg")
-TYPE_SOUND = pygame.mixer.Sound("/Users/jennifernathaniahartono/Documents/GitHub/WORDLE_PROJ_SEM2/WORDLE_SEM2/assets/sfx/type.ogg")
+ENTER_SOUND = pygame.mixer.Sound("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\button_1.ogg")
+TYPE_SOUND = pygame.mixer.Sound("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\sfx\\type.ogg")
 
 GUESSED_LETTER_FONT = pygame.font.Font(GUESSED_LETTER_FONT_PATH, 50)
 AVAILABLE_LETTER_FONT = pygame.font.Font(AVAILABLE_LETTER_FONT_PATH, 25)
@@ -97,7 +97,7 @@ class Button:
 class OpeningScene:
     def __init__(self):
         self.button_font = pygame.font.Font(GUESSED_LETTER_FONT_PATH, 30)
-        self.start_button = Button(   "S T A R T   ", (335, 441), self.button_font)
+        self.start_button = Button("S T A R T   ", (335, 441), self.button_font)
         self.settings_button = Button("S E T T I N G S", (325, 551), self.button_font)
         self.video_start_time = pygame.time.get_ticks()  # Initialize local video_start_time
         
@@ -118,6 +118,7 @@ class OpeningScene:
         #pygame.mixer.music.load(audio_path)
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.start_button.is_clicked(event.pos):
+                reset()
                 current_scene = "gameplay"
                 video_start_time = pygame.time.get_ticks()  # Update global video_start_time
                 audio_sound.stop()
@@ -240,15 +241,6 @@ def check_guess(guess_to_check):
     if guesses_count == 5 and game_result == "":
         game_result = "L"
 
-# def play_again():
-#     pygame.draw.rect(SCREEN, "grey", (10, 600, 1000, 600))
-#     play_again_font = pygame.font.Font(GUESSED_LETTER_FONT_PATH, 50)
-#     play_again_text = play_again_font.render("Press ENTER to Play Again!", True, "black")
-#     play_again_rect = play_again_text.get_rect(center=(WIDTH / 2, 700))
-#     word_was_text = play_again_font.render(f"The word was {CORRECT_WORD}!", True, "black")
-#     word_was_rect = word_was_text.get_rect(center=(WIDTH / 2, 650))
-#     SCREEN.blit(word_was_text, word_was_rect)
-#     SCREEN.blit(play_again_text, play_again_rect)
 
 class WinScene:
     def __init__(self):
@@ -274,6 +266,7 @@ class WinScene:
         #pygame.mixer.music.load(audio_path)
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.play_again_button.is_clicked(event.pos):
+                reset()
                 current_scene = "gameplay"
                 video_start_time = pygame.time.get_ticks()  # Update global video_start_time
                 audio_sound.stop()
@@ -281,12 +274,22 @@ class WinScene:
                 current_scene = "opening"
                 video_start_time = pygame.time.get_ticks()  # Update global video_start_time
                 
+# def play_again():
+#     pygame.draw.rect(SCREEN, "grey", (10, 600, 1000, 600))
+#     play_again_font = pygame.font.Font(GUESSED_LETTER_FONT_PATH, 50)
+#     play_again_text = play_again_font.render("Press ENTER to Play Again!", True, "black")
+#     play_again_rect = play_again_text.get_rect(center=(WIDTH / 2, 700))
+#     word_was_text = play_again_font.render(f"The word was {CORRECT_WORD}!", True, "black")
+#     word_was_rect = word_was_text.get_rect(center=(WIDTH / 2, 650))
+#     SCREEN.blit(word_was_text, word_was_rect)
+#     SCREEN.blit(play_again_text, play_again_rect)
 class LoseScene:
     def __init__(self):
         self.button_font = pygame.font.Font(GUESSED_LETTER_FONT_PATH, 30)
-        self.play_again_button = Button(   "P L A Y  G A M E ", (335, 425), self.button_font)
+        self.play_again_button = Button("P L A Y  G A M E ", (335, 425), self.button_font)
         self.main_menu_button = Button("M A I N  M E N U ", (325, 540), self.button_font)
         self.video_start_time = pygame.time.get_ticks()  # Initialize local video_start_time
+        self.answer_font = pygame.font.Font("D:\\Punyaku\\Python_FInal_Project_Wordle\\WORDLE_PROJ_SEM2\\WORDLE_SEM2\\assets\\DoubleBass.ttf", 50)
         
     def draw(self):
         current_time = (pygame.time.get_ticks() - self.video_start_time) / 1000.0
@@ -297,6 +300,15 @@ class LoseScene:
         else:
             self.video_start_time = pygame.time.get_ticks()
         #pygame.mixer.music.play(-1)
+        static_text = "The word was"
+        static_text_surface = self.button_font.render(static_text, True, "black")
+        static_text_rect = static_text_surface.get_rect(center=(WIDTH / 2 - 70, 350))
+        SCREEN.blit(static_text_surface, static_text_rect)
+
+        correct_word_text_surface = self.answer_font.render(CORRECT_WORD.upper(), True, "red")
+        correct_word_text_rect = correct_word_text_surface.get_rect(center=(WIDTH / 2 + 100, 350))
+        SCREEN.blit(correct_word_text_surface, correct_word_text_rect)
+
         self.play_again_button.draw()
         self.main_menu_button.draw()
 
@@ -305,6 +317,7 @@ class LoseScene:
         #pygame.mixer.music.load(audio_path)
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.play_again_button.is_clicked(event.pos):
+                reset()
                 current_scene = "gameplay"
                 video_start_time = pygame.time.get_ticks()  # Update global video_start_time
                 audio_sound.stop()
@@ -313,21 +326,18 @@ class LoseScene:
                 video_start_time = pygame.time.get_ticks()  # Update global video_start_time
 
 def reset():
-    global guesses_count, CORRECT_WORD, guesses, current_guess, current_guess_string, game_result
-    SCREEN.fill("grey")
-    first_frame = video.get_frame(0)
-    first_frame_surface = pygame.surfarray.make_surface(first_frame.swapaxes(0, 1))
-    SCREEN.blit(first_frame_surface, (0, 0))
+    global guesses_count, guesses, current_guess, current_guess_string, current_letter_bg_x, game_result, current_scene, video_start_time
     guesses_count = 0
-    CORRECT_WORD = random.choice(WORDS)
     guesses = [[] for _ in range(5)]
     current_guess = []
     current_guess_string = ""
+    current_letter_bg_x = 110
     game_result = ""
+    current_scene = "opening"  # Reset to opening scene
     for indicator in indicators:
         indicator.bg_color = OUTLINE
-        indicator.draw()
-    pygame.mixer.music.play(-1)
+    video_start_time = pygame.time.get_ticks() 
+
     
 def create_new_letter(key_pressed):
     global current_guess_string, current_letter_bg_x
