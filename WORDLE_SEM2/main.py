@@ -210,11 +210,11 @@ class OpeningScene:
             if self.start_button.is_clicked(event.pos):
                 reset()
                 current_scene = "gameplay"
-                video_start_time = pygame.time.get_ticks()  # Update global video_start_time
+                video_start_time = pygame.time.get_ticks()  #Update global video_start_time
                 audio_sound.stop()
             elif self.settings_button.is_clicked(event.pos):
                 current_scene = "settings"
-                video_start_time = pygame.time.get_ticks()  # Update global video_start_time
+                video_start_time = pygame.time.get_ticks()  #Update global video_start_time
             elif self.credits_button.is_clicked(event.pos):
                 current_scene = "credits"
                 video_start_time = pygame.time.get_ticks()
