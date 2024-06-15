@@ -188,6 +188,7 @@ class OpeningScene:
         self.start_button = Button("S T A R T   ", (335, 441), self.button_font)
         self.settings_button = Button("S E T T I N G S", (325, 551), self.button_font)
         self.credits_button = WhiteButton("C R E D I T S", (325, 661), self.button_font)
+        self.exit_button = WhiteButton("EXIT", (600, 40), self.button_font)
         self.video_start_time = pygame.time.get_ticks()  # Initialize local video_start_time
         
     def draw(self):
@@ -202,6 +203,7 @@ class OpeningScene:
         self.start_button.draw()
         self.settings_button.draw()
         self.credits_button.draw()
+        self.exit_button.draw()
 
     def handle_event(self, event):
         global current_scene, video_start_time
@@ -218,6 +220,9 @@ class OpeningScene:
             elif self.credits_button.is_clicked(event.pos):
                 current_scene = "credits"
                 video_start_time = pygame.time.get_ticks()
+            elif self.exit_button.is_clicked(event.pos):
+                pygame.quit()
+                sys.exit()
 
 class CreditScene:
     def __init__(self):
@@ -235,11 +240,11 @@ class CreditScene:
         
         credits_text = [
             "Game developed by:",
-            "Angel",
-            "Jeni",
-            "Natalie",
-            "There",
-            "Jason"
+            "Angel 112006217",
+            "Jeni 112006202",
+            "Natalie 112000262",
+            "There 112006221",
+            "Jason 112006227"
         ]
         
         y_offset = 220
@@ -447,7 +452,7 @@ class LoseScene:
         SCREEN.blit(static_text_surface, static_text_rect)
 
         correct_word_text_surface = self.answer_font.render(CORRECT_WORD.upper(), True, "red")
-        correct_word_text_rect = correct_word_text_surface.get_rect(center=(WIDTH / 2 + 100, 350))
+        correct_word_text_rect = correct_word_text_surface.get_rect(center=(WIDTH/2 + 120 , 350))
         SCREEN.blit(correct_word_text_surface, correct_word_text_rect)
 
         self.play_again_button.draw()
